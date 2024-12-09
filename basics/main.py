@@ -1619,30 +1619,99 @@ import sys
 # print(calc.add(5, 10, 15))
 
 
-class Point:
-    def __new__(cls, x, y):
-        instance = super().__new__(cls)
-        instance._x = x
-        instance._y = y
-        return instance
+# class Point:
+#     def __new__(cls, x, y):
+#         instance = super().__new__(cls)
+#         instance._x = x
+#         instance._y = y
+#         return instance
+#
+#     @property
+#     def x(self):
+#         return self._x
+#
+#     @property
+#     def y(self):
+#         return self._y
+#
+#     def __setattr__(self, name, value):
+#         raise AttributeError("Cannot modify immutable instance")
+#
+#
+# point = Point(5, 10)
+# print(point.x, point.y)  # Output: 5 10
+#
+# try:
+#     point.x = 20
+# except AttributeError as e:
+#     print(e)
+#
+# class Wedding():
+#     bride = "GerGon"
+#     groom = "GeoZhe"
+#
+#     def __init__(self, bride_family:list, groom_family:list, friends:list):
+#         self.guests = bride_family + groom_family + friends
+#
+#     def start_wedding(self, status):
+#         if(status == True):
+#             for guest in self.guests:
+#                 self.send_invite(guest)
+#         return "What a wonderful day!"
+#
+#
+#     def send_invite(self, guest):
+#         # Add address to the invite and make it with personal touch
+#         print(f"{guest} is invited!")
+#
+# wedding = Wedding([])
+#
+# wedding.start_wedding(True)
 
-    @property
-    def x(self):
-        return self._x
-
-    @property
-    def y(self):
-        return self._y
-
-    def __setattr__(self, name, value):
-        raise AttributeError("Cannot modify immutable instance")
+# def f(arg: str) -> int:
+#     return len(arg)
 
 
-point = Point(5, 10)
-print(point.x, point.y)  # Output: 5 10
+#ERROR
+# def f(x: int | float) -> int | float:
+#     return x * x
+#
+# f("sda")
 
-try:
-    point.x = 20
-except AttributeError as e:
-    print(e)
+
+# import is_squares
+#
+# def main():
+#     """
+#     You are expected to write a Python function that is passed a list of
+#     integers and returns True / False depending on whether all numbers
+#     in the list are squares of integers, themselves.
+#
+# Note: You are NOT allowed to edit main.py and will receive an error if you do so!
+# Note: You have only THREE (3) attempts. After that, you won't be able to Grade your solution.
+#     :return:
+#     """
+#     numbers = []
+#     while True:
+#         numstr = input("Enter a number: ")
+#         numbers.append(int(numstr))
+#         if input("Add another number? (y/n): ") != 'y':
+#             break
+#     print(is_squares.is_list_squares(numbers))
+#
+# if __name__=="__main__":
+#     main()
+
+# for i in range(1, 101):
+#     if i % 5 == 0 and i % 3 == 0:
+#         print("FizzBuzz")
+#     elif i % 3 == 0:
+#         print("Fizz")
+#     elif i % 5 == 0:
+#         print("Buzz")
+#     else:
+#         print(i)
+
+
+
 
