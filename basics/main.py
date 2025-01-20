@@ -20,7 +20,7 @@
 # main()
 # from typing import List, Optional
 # import json
-import itertools
+# import itertools
 
 # slising the String
 # txt = "The best things in life are free!"
@@ -1387,7 +1387,7 @@ import itertools
 # print(dir(itertools))
 
 
-import sys
+# import sys
 
 
 # def my_decorator(func):
@@ -1711,6 +1711,475 @@ import sys
 #         print("Buzz")
 #     else:
 #         print(i)
+
+
+# IndentationError
+# for i in range(10):
+# print(19)
+
+# class R:
+#     a = 1
+#     def __init__(self):
+#         self.a = 2 # This would just overshadow R.a
+#         self.b = 2
+#     def c(self, arg):
+#         print(self, arg)
+#
+# r = R()
+# print(r.a, r.b) # First is class variable, second is instance variable
+# print(r.c(42), R.c(r, 42)) # Same result
+#
+# print(R.a)
+# R.a += 1
+# print(R.a)
+
+# class A: pass
+# class B(A): pass
+# class C(A,B): pass # TypeError: Cannot
+# #create a consistent method resolution
+# #order (MRO) for bases A, B
+# a = "5"
+# b = "5"
+# print(a + b)
+
+
+# print("sorry no sorry \n" * 100)
+
+
+# !/usr/bin/env python3
+
+# class TuringMachine:
+#     def __init__(
+#             self,
+#             tape=None,
+#             blank_symbol="_",
+#             transitions=None,
+#             start_state="q0",
+#             accept_state="q_accept",
+#             reject_state="q_reject",
+#     ):
+#         """
+#         Initialize a Turing Machine.
+#
+#         :param tape: list of symbols representing the initial tape content
+#         :param blank_symbol: symbol denoting a blank
+#         :param transitions: a dict representing the transition function
+#             {
+#                 (current_state, current_symbol): (next_state, symbol_to_write, move_direction)
+#             }
+#         :param start_state: the starting state
+#         :param accept_state: the accepting state
+#         :param reject_state: the rejecting state
+#         """
+#         # If no tape is provided, use a single blank symbol
+#         self.tape = tape if tape else [blank_symbol]
+#         self.blank_symbol = blank_symbol
+#
+#         # Transition function: dict[(current_state, symbol_on_tape)] = (next_state, symbol_to_write, move_dir)
+#         self.transitions = transitions if transitions else {}
+#
+#         # Machine states
+#         self.start_state = start_state
+#         self.accept_state = accept_state
+#         self.reject_state = reject_state
+#
+#         # Initialize machine
+#         self.current_state = self.start_state
+#         self.head_position = 0  # Start on the leftmost symbol of the tape
+#
+#     def step(self):
+#         """Perform a single step of the Turing Machine."""
+#         # 1. Read the current symbol under the head
+#         current_symbol = self.tape[self.head_position]
+#
+#         # 2. Look up the transition in the dictionary
+#         if (self.current_state, current_symbol) not in self.transitions:
+#             # No valid transition => We reject by default (or just stop)
+#             self.current_state = self.reject_state
+#             return
+#
+#         next_state, write_symbol, move_dir = self.transitions[(self.current_state, current_symbol)]
+#
+#         # 3. Write the symbol on the tape
+#         self.tape[self.head_position] = write_symbol
+#
+#         # 4. Update the state
+#         self.current_state = next_state
+#
+#         # 5. Move the head
+#         if move_dir == "R":
+#             self.head_position += 1
+#         elif move_dir == "L":
+#             self.head_position -= 1
+#         else:
+#             raise ValueError("Invalid move direction. Use 'L' or 'R'.")
+#
+#         # Make sure the head is always within bounds of the tape
+#         if self.head_position < 0:
+#             # Extend the tape on the left with a blank symbol
+#             self.tape.insert(0, self.blank_symbol)
+#             self.head_position = 0
+#         elif self.head_position >= len(self.tape):
+#             # Extend the tape on the right with a blank symbol
+#             self.tape.append(self.blank_symbol)
+#
+#     def run(self, max_steps=1000, verbose=False):
+#         """
+#         Run the Turing Machine until it reaches the accept or reject state,
+#         or until max_steps is exceeded.
+#
+#         :param max_steps: safety limit for the number of steps to avoid infinite loops
+#         :param verbose: if True, prints debugging information at every step
+#         :return: "ACCEPT", "REJECT", or "TIMEOUT"
+#         """
+#         steps = 0
+#         while steps < max_steps:
+#             if verbose:
+#                 self.print_debug_info(steps)
+#
+#             # Check if we are in accept or reject state
+#             if self.current_state == self.accept_state:
+#                 return "ACCEPT"
+#             if self.current_state == self.reject_state:
+#                 return "REJECT"
+#
+#             # Perform one step
+#             self.step()
+#             steps += 1
+#
+#         # If we exceed max_steps, consider it a timeout
+#         return "TIMEOUT"
+#
+#     def print_debug_info(self, step):
+#         """Helper method to print debug info about the current step."""
+#         tape_str = "".join(self.tape)
+#         head_marker = " " * self.head_position + "^"
+#         print(f"Step {step}:")
+#         print(f"  State: {self.current_state}")
+#         print(f"  Tape : {tape_str}")
+#         print(f"         {head_marker}")
+#
+#
+# def main():
+#     """
+#     Example usage of the TuringMachine class.
+#
+#     This example machine increments a unary number: e.g., input '111' -> output '1111'.
+#     The tape symbol '1' means a mark, '_' means a blank.
+#     """
+#     # Example transition rules for a unary-increment Turing Machine
+#     transitions = {
+#         # (current_state, current_symbol): (next_state, write_symbol, move_direction)
+#
+#         # We start in q0 scanning the first '1'. We move right until we find a blank.
+#         ("q0", "1"): ("q0", "1", "R"),
+#         ("q0", "_"): ("q1", "1", "L"),  # Once we see the blank after the last 1, we turn it into a '1' and move left
+#
+#         # Once we go to q1, we move left until we find a blank (to ensure we end up over the first 1).
+#         ("q1", "1"): ("q1", "1", "L"),
+#         ("q1", "_"): ("q_accept", "_", "R"),  # Once we pass the left boundary, we accept
+#     }
+#
+#     # Our tape: '111' means we start with 3 marks
+#     tape = list("111")
+#
+#     # Create the Turing Machine
+#     tm = TuringMachine(
+#         tape=tape,
+#         blank_symbol="_",
+#         transitions=transitions,
+#         start_state="q0",
+#         accept_state="q_accept",
+#         reject_state="q_reject",
+#     )
+#
+#     # Run the machine
+#     result = tm.run(max_steps=50, verbose=True)
+#     print(f"Result: {result}")
+#     print(f"Final tape: {''.join(tm.tape)}")
+#     print(f"Head position: {tm.head_position}")
+#
+#
+# if __name__ == "__main__":
+#     main()
+
+
+# !/usr/bin/env python3
+# import time
+#
+#
+# class TuringMachine:
+#     def __init__(
+#             self,
+#             tape=None,
+#             blank_symbol="_",
+#             transitions=None,
+#             start_state="q0",
+#             accept_state="q_accept",
+#             reject_state="q_reject",
+#     ):
+#         """
+#         Initialize a Turing Machine.
+#
+#         :param tape: list of symbols representing the initial tape content
+#         :param blank_symbol: symbol denoting a blank
+#         :param transitions: a dict representing the transition function
+#             {
+#                 (current_state, current_symbol): (next_state, symbol_to_write, move_direction)
+#             }
+#         :param start_state: the starting state
+#         :param accept_state: the accepting state
+#         :param reject_state: the rejecting state
+#         """
+#         # If no tape is provided, use a single blank symbol
+#         self.tape = tape if tape else [blank_symbol]
+#         self.blank_symbol = blank_symbol
+#
+#         # Transition function:
+#         # dict[(current_state, symbol_on_tape)] = (next_state, symbol_to_write, move_dir)
+#         self.transitions = transitions if transitions else {}
+#
+#         # Machine states
+#         self.start_state = start_state
+#         self.accept_state = accept_state
+#         self.reject_state = reject_state
+#
+#         # Initialize machine
+#         self.current_state = self.start_state
+#         self.head_position = 0  # Start on the leftmost symbol
+#
+#     def step(self):
+#         """Perform a single step of the Turing Machine."""
+#         current_symbol = self.tape[self.head_position]
+#
+#         # If there's no valid transition, go to reject state
+#         if (self.current_state, current_symbol) not in self.transitions:
+#             self.current_state = self.reject_state
+#             return
+#
+#         next_state, write_symbol, move_dir = self.transitions[(self.current_state, current_symbol)]
+#
+#         # Write the new symbol to tape
+#         self.tape[self.head_position] = write_symbol
+#
+#         # Update the current state
+#         self.current_state = next_state
+#
+#         # Move the head
+#         if move_dir == "R":
+#             self.head_position += 1
+#         elif move_dir == "L":
+#             self.head_position -= 1
+#         else:
+#             raise ValueError("Invalid move direction. Use 'L' or 'R'.")
+#
+#         # If the head goes out of left boundary, extend tape on the left
+#         if self.head_position < 0:
+#             self.tape.insert(0, self.blank_symbol)
+#             self.head_position = 0
+#         # If the head goes beyond right boundary, extend tape on the right
+#         elif self.head_position >= len(self.tape):
+#             self.tape.append(self.blank_symbol)
+#
+#     def run(self, max_steps=1000, step_delay=0.5):
+#         """
+#         Run the machine until accept or reject or until max_steps is exceeded.
+#
+#         :param max_steps: maximum steps to run before timing out
+#         :param step_delay: time (in seconds) to wait between steps (for visualization)
+#         :return: "ACCEPT", "REJECT", or "TIMEOUT"
+#         """
+#         for step in range(max_steps):
+#             # Visualize the current step
+#             self.visualize(step)
+#
+#             # Check if in accept or reject state
+#             if self.current_state == self.accept_state:
+#                 print("Machine reached ACCEPT state!\n")
+#                 return "ACCEPT"
+#             if self.current_state == self.reject_state:
+#                 print("Machine reached REJECT state!\n")
+#                 return "REJECT"
+#
+#             # Perform a step
+#             self.step()
+#
+#             # Pause for a visual effect
+#             time.sleep(step_delay)
+#
+#         print("Machine TIMEOUT: exceeded max steps.\n")
+#         return "TIMEOUT"
+#
+#     def visualize(self, step):
+#         """
+#         Visualize the Turing Machine state, tape, and head position.
+#         """
+#         print(f"Step {step:03d} | State: {self.current_state}")
+#
+#         # Build a string to represent the tape
+#         tape_str = ""
+#         for i, symbol in enumerate(self.tape):
+#             if i == self.head_position:
+#                 # Mark the tape cell under the head with brackets
+#                 tape_str += f"[{symbol}]"
+#             else:
+#                 tape_str += f" {symbol} "
+#         print(f"Tape: {tape_str}\n")
+#
+#
+# def main():
+#     """
+#     Example usage:
+#     This Turing Machine increments a unary number on the tape.
+#     For instance, '111' -> '1111'.
+#     The tape symbol '1' is a mark, '_' is blank.
+#     """
+#     # Transition rules for a unary-increment Turing Machine
+#     transitions = {
+#         # (current_state, current_symbol): (next_state, symbol_to_write, move_dir)
+#
+#         # State q0: move right until blank, then change blank to '1' and go to q1
+#         ("q0", "1"): ("q0", "1", "R"),
+#         ("q0", "_"): ("q1", "1", "L"),
+#
+#         # State q1: move left until a blank, then accept
+#         ("q1", "1"): ("q1", "1", "L"),
+#         ("q1", "_"): ("q_accept", "_", "R"),
+#     }
+#
+#     # Initial tape: 3 marks
+#     tape = list("111")
+#
+#     # Create the TuringMachine instance
+#     tm = TuringMachine(
+#         tape=tape,
+#         blank_symbol="_",
+#         transitions=transitions,
+#         start_state="q0",
+#         accept_state="q_accept",
+#         reject_state="q_reject",
+#     )
+#
+#     # Run the machine with a 0.5-second delay between steps
+#     result = tm.run(max_steps=50, step_delay=0.5)
+#     print(f"Result: {result}")
+#     print(f"Final tape: {''.join(tm.tape)}")
+#     print(f"Head position: {tm.head_position}")
+#
+#
+# if __name__ == "__main__":
+#     main()
+
+#
+#
+# for i in range(1, 6):
+#     print(i)
+
+# sample_list = [1, 1, 8, 4, 4, 2, 4, 8]
+# my_dict = dict()
+# for i in sample_list:
+#     if my_dict.get(i):
+#         value = my_dict.get(i) + 1
+#         my_dict[i] = value
+#     else:
+#         my_dict.update({i: 1})
+# print(my_dict)
+
+# sample_list = ["luxuriant", "silly", "dizzy", "frightening", "blink", "silly", "enjoy", "suspend", "blink", "reward",
+#                "blink", "fact", "debt", "marble", "blink", "yak", "frightening", "suspend", "debt"]
+# my_dict = dict()
+#
+# for i in sample_list:
+#     if my_dict.get(i):
+#         value = my_dict.get(i) + "*"
+#         my_dict[i] = value
+#     else:
+#         my_dict.update({i: " |*"})
+#
+# for item in my_dict:
+#     print(item + my_dict[item])
+
+
+# print(str('"""ds ad as    """').strip("\""))
+
+
+# budget_value = 10.5
+#
+# try:
+#     file = open("C:\\Users\\georg\\Desktop\\wedding\\new_file.py", "w")
+#     try:
+#         file.write("Username: " + input("Enter Username:\n") + "\n")
+#         file.write("Password: " + input("Enter password:\n") + f"\nBudget: {budget_value}")
+#     except:
+#         print("Something went wrong with writing")
+#
+#     finally:
+#         file.close()
+# except:
+#     print("Something went wrong with opening")
+#
+# try:
+#     file = open("C:\\Users\\georg\\Desktop\\wedding\\new_file.py", "rt")
+#     try:
+#         print(file.read())
+#     except:
+#         print("Something went wrong with writing")
+#
+#     finally:
+#         file.close()
+#
+# except:
+#     print("Something went wrong with opening")
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# print(matplotlib.__version__)
+
+# xpoints = np.array([1, 2, 6,  8])
+# ypoints = np.array([3, 8, 1, 7])
+# xpointssss = [7, 5, 1, 9]
+#
+# # plt.plot(xpoints, ypoints, marker="o", ms=20, mec="r", mfc="r")
+# # plt.show()
+#
+# plt.plot(xpoints, ls="-.")
+# plt.plot(ypoints, ls="-.")
+# plt.plot([4, 6, 5, 2, 1], ls="-.")
+# plt.plot(xpointssss, ls="--")
+# plt.show()
+
+
+# x = np.array([80, 85, 90, 95, 100, 105, 110, 115, 120, 125])
+# y = np.array([240, 250, 260, 270, 280, 290, 300, 310, 320, 330])
+#
+# plt.plot(x, y)
+#
+# font1 = {'family':'serif','color':'blue','size':20}
+# font2 = {'family':'serif','color':'darkred','size':15}
+#
+# plt.title("Sports Watch Data", fontdict=font1)
+# plt.xlabel("Average Pulse", fontdict=font2)
+# plt.ylabel("Calorie Burnage", fontdict=font2)
+#
+# plt.show()
+
+
+# class Cat:
+#     spicies = "ulichna"
+#     def __init__(self, name, age):
+#         self.name = name
+#         self.age = age
+#
+#
+# cat1 = Cat("Gonzo", 3)
+# print(cat1.spicies)
+# Cat.spicies = "domashna"
+# print(Cat.spicies)
+# print(cat1.spicies)
+
+
+
 
 
 
